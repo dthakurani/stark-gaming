@@ -1,53 +1,49 @@
 const { Model, Sequelize } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class User extends Model {
+  class UserLogin extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasOne(models.UserLogin, {
+      // define association here
+      this.belongsTo(models.User, {
         foreignKey: 'userId',
-        as: 'userLoginData',
+        targetKey: 'id',
+        as: 'user',
       });
     }
   }
-  User.init(
+  UserLogin.init(
     {
-      name: {
-        type: Sequelize.STRING,
+      userId: {
         allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'user',
+          key: 'id',
+        },
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      resetPasswordToken: {
+      refreshTokenId: {
         type: Sequelize.TEXT,
-        allowNull: true,
+        allowNull: false,
       },
-      resetPasswordExpires: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
+      accessTokenId: {
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
-      resetPasswordTokenUse: {
+      logout: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
     },
     {
       sequelize,
-      paranoid: true,
-      tableName: 'user',
-      modelName: 'User',
+      tableName: 'user_login',
+      modelName: 'UserLogin',
     }
   );
-  return User;
+  return UserLogin;
 };

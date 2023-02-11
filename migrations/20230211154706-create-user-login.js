@@ -1,35 +1,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('user', {
+    await queryInterface.createTable('user_login', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal('uuid_generate_v4()'),
       },
-      name: {
-        type: Sequelize.STRING,
+      user_id: {
         allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: 'user',
+          key: 'id',
+        },
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      reset_password_token: {
+      refresh_token_id: {
         type: Sequelize.TEXT,
-        allowNull: true,
+        allowNull: false,
       },
-      reset_password_expires: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
+      access_token_id: {
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
-      reset_password_token_use: {
+      logout: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
@@ -51,6 +46,6 @@ module.exports = {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable('user');
+    await queryInterface.dropTable('user_login');
   },
 };
