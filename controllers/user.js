@@ -1,8 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
-// const { commonErrorHandler } = require('../helper/errorHandler');
+
 const userService = require('../services/user');
 
-// eslint-disable-next-line consistent-return
 const userSignup = async (req, res, next) => {
   try {
     const { body: payload } = req;
@@ -15,6 +15,18 @@ const userSignup = async (req, res, next) => {
   }
 };
 
+const userLogin = async (req, res, next) => {
+  try {
+    const { body: payload } = req;
+    const data = await userService.userLogin(payload);
+    res.data = data;
+    next();
+  } catch (error) {
+    return res.status(error.statusCode).json(error);
+  }
+};
+
 module.exports = {
   userSignup,
+  userLogin,
 };

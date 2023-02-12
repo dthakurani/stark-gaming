@@ -21,6 +21,16 @@ const signupSchema = async (req, res, next) => {
   validateRequest(req, res, next, schema, 'body');
 };
 
+const loginSchema = async (req, res, next) => {
+  const schema = Joi.object({
+    email: Joi.string().email().lowercase().required(),
+    password: passwordComplexity(complexityOptions).required(),
+  });
+
+  validateRequest(req, res, next, schema, 'body');
+};
+
 module.exports = {
   signupSchema,
+  loginSchema,
 };

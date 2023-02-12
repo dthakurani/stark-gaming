@@ -15,4 +15,11 @@ router.post(
   genericResponse.sendResponse
 );
 
+router.post(
+  '/login',
+  userValidator.loginSchema,
+  userController.userLogin,
+  genericResponse.sendResponse
+);
+
 module.exports = router;
