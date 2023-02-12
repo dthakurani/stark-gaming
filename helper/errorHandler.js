@@ -1,4 +1,4 @@
-const commonErrorHandler = async (res, message, statusCode = 500) => {
+const commonErrorHandler = (message, statusCode = 500) => {
   let errorMessage = 'Something went wrong. Please try again';
   if (message) {
     errorMessage = message;
@@ -9,8 +9,9 @@ const commonErrorHandler = async (res, message, statusCode = 500) => {
     message: errorMessage,
     error: true,
   };
-  res.status(statusCode).send(response);
+return response;
 };
+
 
 module.exports = {
   commonErrorHandler,
